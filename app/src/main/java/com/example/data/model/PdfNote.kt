@@ -10,6 +10,7 @@ data class PdfNote(
     val youtubeUrl: String,
     val duration: String,
     val contentPages: List<NotePage>,
+    val thumbnailUrl: String? = null,
     val isPremium: Boolean = false,
     val isLiveApi: Boolean = false
 )

@@ -19,6 +19,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
@@ -30,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import com.example.data.database.NoteProgress
 import com.example.data.model.PdfNote
 import com.example.data.repository.PdfNotesRepository
+import coil.compose.AsyncImage
 import com.example.ui.components.WbaatzAdBanner
 import com.example.ui.components.GoogleAdMobPlaceholder
 
@@ -580,25 +582,48 @@ fun NoteFeedCard(
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            // Title
-            Text(
-                text = note.title,
-                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold, color = Color.Black),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    // Title
+                    Text(
+                        text = note.title,
+                        style = MaterialTheme.typography.titleLarge.copy(
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Black
+                        ),
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
 
-            Spacer(modifier = Modifier.height(6.dp))
+                    Spacer(modifier = Modifier.height(6.dp))
 
-            // Description
-            Text(
-                text = note.description,
-                style = MaterialTheme.typography.bodyMedium,
-                color = Color.DarkGray,
-                maxLines = 3,
-                overflow = TextOverflow.Ellipsis,
-                lineHeight = 19.sp
-            )
+                    // Description
+                    Text(
+                        text = note.description,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.DarkGray,
+                        maxLines = 3,
+                        overflow = TextOverflow.Ellipsis,
+                        lineHeight = 19.sp
+                    )
+                }
+
+                // Note Thumbnail
+                note.thumbnailUrl?.let { url ->
+                    AsyncImage(
+                        model = url,
+                        contentDescription = "Note Thumbnail",
+                        modifier = Modifier
+                            .size(80.dp)
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(MaterialTheme.colorScheme.surfaceVariant),
+                        contentScale = ContentScale.Crop
+                    )
+                }
+            }
 
             Spacer(modifier = Modifier.height(14.dp))
 

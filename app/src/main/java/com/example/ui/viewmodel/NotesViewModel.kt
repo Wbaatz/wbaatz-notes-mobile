@@ -27,8 +27,8 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
             initialValue = emptyList()
         )
 
-    // State for all notes (starts with offline/cached, gets updated with live API notes)
-    private val _notesList = MutableStateFlow<List<PdfNote>>(PdfNotesRepository.notes)
+    // State for all notes (starts empty, gets updated with live API notes)
+    private val _notesList = MutableStateFlow<List<PdfNote>>(emptyList())
     val notesList: StateFlow<List<PdfNote>> = _notesList.asStateFlow()
 
     // Loading/Error states for API
