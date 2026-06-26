@@ -251,6 +251,10 @@ object PdfNotesRepository {
             backendBaseUrl + backendNote.pdfPath
         }
 
+        val fullThumbnailUrl = backendNote.thumbnailPath?.let { path ->
+            if (path.startsWith("http")) path else backendBaseUrl + path
+        }
+
         return PdfNote(
             id = backendNote.id,
             title = backendNote.title,
@@ -258,6 +262,7 @@ object PdfNotesRepository {
             category = mappedCategory,
             pages = template.pages,
             pdfUrl = fullPdfUrl,
+            thumbnailUrl = fullThumbnailUrl,
             youtubeUrl = template.youtubeUrl,
             duration = template.duration,
             contentPages = template.contentPages,
