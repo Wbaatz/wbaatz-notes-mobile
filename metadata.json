@@ -1,0 +1,6 @@
+{
+  "name": "Wbaatz Notes",
+  "description": "Free programming and development study notes from the Wbaatz YouTube channel with integrated study tools, bookmarks, reading notes, and offline access.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
