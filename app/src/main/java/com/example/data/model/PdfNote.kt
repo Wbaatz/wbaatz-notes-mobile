@@ -11,6 +11,7 @@ data class PdfNote(
     val duration: String,
     val contentPages: List<NotePage>,
     val thumbnailUrl: String? = null,
+    val localPath: String? = null,
     val isPremium: Boolean = false,
     val isLiveApi: Boolean = false
 )

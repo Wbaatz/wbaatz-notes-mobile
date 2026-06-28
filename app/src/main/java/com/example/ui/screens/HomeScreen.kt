@@ -2,6 +2,7 @@ package com.example.ui.screens
 
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -312,7 +313,24 @@ fun HomeScreen(
         }
 
         // Notes Feed List
-        if (filteredNotes.isEmpty()) {
+        if (isSyncing && filteredNotes.isEmpty()) {
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        "Fetching syllabus notes...",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
+        } else if (filteredNotes.isEmpty()) {
             Box(
                 modifier = Modifier
                     .weight(1f)
@@ -395,9 +413,6 @@ fun HomeScreen(
                 item {
                     Spacer(modifier = Modifier.height(4.dp))
                 }
-                item {
-                    TutoringOfferCard()
-                }
                 itemsIndexed(filteredNotes, key = { _, note -> note.id }) { index, note ->
                     val progress = noteProgressList.find { it.noteId == note.id }
                     val isBookmarked = progress?.isBookmarked == true
@@ -453,6 +468,10 @@ fun NoteFeedCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
+            .clickable { 
+                Log.d("HomeScreen", "Card clicked for note: ${note.id}")
+                onReadClick() 
+            } // MAKE THE WHOLE CARD CLICKABLE
             .testTag("note_card_${note.id}"),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
